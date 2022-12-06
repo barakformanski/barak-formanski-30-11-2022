@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { configureStore } from "@reduxjs/toolkit";
 
-export const store = configureStore({
+import favoritesReducer from "../features/favorites/favoritesSlice";
+import settingsSlice from "../features/settings/settingsSlice";
+import fiveDaysForecast from "../features/homeWeather/fiveDaysForecastSlice";
+export default configureStore({
   reducer: {
-    counter: counterReducer,
+    settings: settingsSlice,
+    fiveDaysForecast: fiveDaysForecast,
+    favorites: favoritesReducer,
   },
 });
