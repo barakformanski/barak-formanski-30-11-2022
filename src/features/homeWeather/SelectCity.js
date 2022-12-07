@@ -2,9 +2,14 @@ import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { apiCall } from "../../app/utils/apiCalls";
-import { favoriteAdded, selectAllfavorites } from "../favorites/favoritesSlice";
+import {
+  favoriteAdded,
+  favoriteDeleted,
+  selectAllfavorites,
+} from "../favorites/favoritesSlice";
 import {
   fetchFiveDaysForecast,
+  navigate,
   setSelectedCity,
 } from "./fiveDaysForecastSlice";
 import mockDataAutoCompleteresponse from "./mockDataAutoComplete";
@@ -23,24 +28,29 @@ function SelectCity() {
   const [enableAddToFavortie, setEnableAddToFavortie] = useState(false);
 
   const handleChange = async (e) => {
-    setDisplay("appear");
-    setInputValue(e.target.value);
-    const urlPeriod = "locations/v1/cities/autocomplete";
-    const query = `&q=${e.target.value}`;
-    // const responseDataAutoComplete = await apiCall(
-    //   urlPeriod,
-    //   query,
-    //   "autocomplete"
-    // );
-    //   setAutoCompleteData(responseDataAutoComplete);
-    // console.log("auto complete response", responseDataAutoComplete);
+    if (!e.target.value) {
+      setDisplay("disappear");
+      setInputValue();
+    } else {
+      setDisplay("appear");
+      setInputValue(e.target.value);
+      const urlPeriod = "locations/v1/cities/autocomplete";
+      const query = `&q=${e.target.value}`;
+      // const responseDataAutoComplete = await apiCall(
+      //   urlPeriod,
+      //   query,
+      //   "autocomplete"
+      // );
+      //   setAutoCompleteData(responseDataAutoComplete);
+      // console.log("auto complete response", responseDataAutoComplete);
 
-    setAutoCompleteData(mockDataAutoCompleteresponse);
+      setAutoCompleteData(mockDataAutoCompleteresponse);
 
-    console.log(
-      "mock data auto complete response",
-      mockDataAutoCompleteresponse
-    );
+      console.log(
+        "mock data auto complete response",
+        mockDataAutoCompleteresponse
+      );
+    }
   };
   const onSelectChange = async (e) => {
     e.preventDefault();
@@ -63,7 +73,6 @@ function SelectCity() {
     // dispatch(fetchFiveDaysForecast());
   };
   const onAddToFavoritesClicked = () => {
-    console.log(111, selectedCityData);
     dispatch(
       favoriteAdded({
         key: selectedCityData.key,
@@ -80,53 +89,85 @@ function SelectCity() {
     inputValue !== selectedCityData.city
   ) {
     disableButtonChecking.disabled = true;
-  } else disableButtonChecking.disabled = false;
+  } else {
+    disableButtonChecking.disabled = false;
+  }
+
+  const addToFavorites = () => {
+    onAddToFavoritesClicked();
+  };
+  const deleteFromFavorites = () => {
+    dispatch(favoriteDeleted(selectedCityData.key));
+  };
+
+  let renderButtonText;
+  if (favorties.find((favorite) => favorite.city === selectedCityData.city)) {
+    renderButtonText = (
+      <button className="regular" type="button" onClick={deleteFromFavorites}>
+        delete from favotites
+      </button>
+    );
+  } else if (selectedCityData.city) {
+    renderButtonText = (
+      <button className="regular" type="button" onClick={addToFavorites}>
+        add to favotites
+      </button>
+    );
+  } else {
+    return <></>;
+  }
+  const displayValueInput = () => {
+    if (selectedCityData && display === "disappear") {
+      return selectedCityData.city;
+    } else {
+      return inputValue;
+    }
+  };
 
   return (
     <div className={"container"}>
-      <form>
-        ssss
-        <input
-          value={
-            selectedCityData && display === "disappear"
-              ? selectedCityData.city
-              : inputValue
-          }
-          spellCheck="false"
-          autoComplete="off"
-          type="text"
-          placeholder="Search for a city"
-          autoFocus
-          onChange={(e) => handleChange(e)}
-          name="city"
-        />
-        sss
-        <span className="msg">{message}</span>
-        <ul className={`search-list-select-${display}`} id="search">
-          {autoCompleteData?.map((city) => {
-            return (
-              <li key={city.Key}>
-                <button
-                  value={city.LocalizedName}
-                  key={city.key}
-                  onClick={(e) => onSelectChange(e)}
-                >
-                  {city.LocalizedName}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </form>
+      <div className={"add-favorite-button-input-container"}>
+        <form>
+          <input
+            value={displayValueInput()}
+            spellCheck="false"
+            autoComplete="off"
+            type="text"
+            placeholder="Search for a city"
+            autoFocus
+            onChange={(e) => handleChange(e)}
+            name="city"
+          />
 
-      <button
-        className="regular"
-        type="button"
-        onClick={onAddToFavoritesClicked}
-        {...disableButtonChecking}
-      >
-        add to favotites
-      </button>
+          <span className="msg">{message}</span>
+          <ul className={`search-list-select-${display}`} id="search">
+            {autoCompleteData?.map((city) => {
+              return (
+                <li key={city.Key}>
+                  <button
+                    value={city.LocalizedName}
+                    key={city.key}
+                    onClick={(e) => onSelectChange(e)}
+                  >
+                    {city.LocalizedName}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </form>
+        {renderButtonText}
+
+        {/* <button
+          className="regular"
+          type="button"
+          // onClick={onAddToFavoritesClicked}
+          onClick={addOrDelete}
+          // {...disableButtonChecking}
+        >
+          {renderButtonText}
+        </button> */}
+      </div>
     </div>
   );
 }

@@ -39,6 +39,11 @@ const fiveDaysForecastSlice = createSlice({
       state.selectedCity.key = key;
       state.selectedCity.country = country;
     },
+    resetFiveDaysForecast(state, action) {
+      console.log(111);
+      state.fiveDaysForecast = [];
+      state.status = "idle";
+    },
   },
   extraReducers(builder) {
     builder
@@ -57,7 +62,8 @@ const fiveDaysForecastSlice = createSlice({
   },
 });
 
-export const { setSelectedCity } = fiveDaysForecastSlice.actions;
+export const { setSelectedCity, resetFiveDaysForecast } =
+  fiveDaysForecastSlice.actions;
 
 export default fiveDaysForecastSlice.reducer;
 

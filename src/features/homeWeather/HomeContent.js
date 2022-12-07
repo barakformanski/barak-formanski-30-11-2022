@@ -27,16 +27,14 @@ function HomeContent() {
     );
     content = (
       <div className="container">
-        <div className="title-and-card-container">
-          <WeatherCard
-            cityName={selectedCityData.city}
-            cityTemp={fiveDaysForecastData?.[0]?.DailyForecasts[0].Temperature}
-            display={"cityAndTemp"}
-          />
-          <h1 className="weekly-title">
-            {fiveDaysForecastData?.[0]?.Headline.Text}
-          </h1>
-        </div>
+        <WeatherCard
+          cityName={selectedCityData.city}
+          cityTemp={fiveDaysForecastData?.[0]?.DailyForecasts[0].Temperature}
+          display={"cityAndTemp"}
+        />
+        <h1 className="weekly-title">
+          {fiveDaysForecastData?.[0]?.Headline.Text}
+        </h1>
 
         <ul className="cities">
           {fiveDaysForecastData?.[0]?.DailyForecasts?.map((day) => {

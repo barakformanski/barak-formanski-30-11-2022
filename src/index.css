@@ -4,7 +4,7 @@
   --text_light: #fff;
   --text_med: #53627c;
   --text_dark: #1e2432;
-
+  --bg_switch: rgb(207, 236, 246);
   --light: #d8dbe0;
   --dark: #28292c;
 
@@ -17,6 +17,7 @@
   --text_light: #fff;
   --text_med: #53627c;
   --text_dark: #1e2432;
+  --bg_switch: #05255b;
 }
 
 body {
@@ -39,7 +40,7 @@ code {
   background-color: var(--bg_main);
   color: var(--text_light);
   min-height: 100vh;
-  padding: 4% 4% 0% 4%;
+  padding: 4% 4% 4% 4%;
 }
 p {
   font-size: 1rem;
@@ -59,15 +60,20 @@ li button {
   font-weight: 700;
   padding: 0.75rem 1.5rem;
   width: 100%;
+  border: none;
 }
 
 button.regular {
   display: inline-block;
-  background: #1976d2;
+  background: #3993ec;
   color: white;
   border-radius: 4px;
   font-weight: 700;
   padding: 0.75rem 1.5rem;
+  border: none;
+  outline: none;
+  margin-left: 1%;
+  height: fit-content;
 }
 button.delete-button {
   display: inline-block;
@@ -78,6 +84,7 @@ button.delete-button {
   top: 5%;
   right: 5%;
   width: auto;
+  font-size: 3rem;
 }
 button:hover,
 button:disabled,
@@ -127,17 +134,20 @@ ul {
 
 .container {
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
 }
-.title-and-card-container {
+.add-favorite-button-input-container {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 3%;
+}
+/* .title-and-card-container {
   display: flex;
   position: relative;
-}
+} */
 .weekly-title {
   font-size: 3rem;
-  position: absolute;
-  width: 50%;
+  width: 100%;
   right: 25%;
   text-align: center;
 }
@@ -165,11 +175,16 @@ search-section form li {
   font-size: 2rem;
   height: 40px;
   padding: 5px 5px 10px;
-  border-bottom: 1px solid;
+  border-radius: 2vw;
+  border: none;
 }
 
-.search-section form input::placeholder {
+.search-section form input::placeholder:focus-within {
   color: currentColor;
+  outline: none;
+}
+.search-section form input:focus {
+  outline: none;
 }
 .search-list-select-appear {
   position: absolute;
@@ -237,7 +252,8 @@ search-section form li {
   justify-content: space-between;
 }
 .ajax-section .min-temp {
-  font-size: 3rem;
+  font-size: 1.5rem;
+  margin-left: 1vw;
 }
 .ajax-section .city sup {
   font-size: 0.5em;
@@ -251,9 +267,9 @@ search-section form li {
 }
 
 .ajax-section .city-icon {
-  margin-top: 10px;
   width: 100px;
   height: 100px;
+  padding: 1vw;
 }
 
 .ajax-section .error-message {
@@ -434,10 +450,11 @@ search-section form li {
 }
 
 /* toggle switch */
-
+.switches-continer {
+  display: flex;
+}
 .toggle-switch {
   position: relative;
-  /* width: 200px; */
   width: 4.5vw;
 }
 
@@ -445,46 +462,41 @@ label {
   position: absolute;
   width: 100%;
   height: 2.5vw;
-  /* height: 100px; */
   background-color: var(--dark);
-  /* border-radius: 50px; */
   border-radius: 2vw;
   cursor: pointer;
 }
 
+/* input { */
 .toggle-switch input {
   position: absolute;
   display: none;
 }
-
+.toggle-input {
+  position: absolute;
+  display: none;
+}
 .slider {
   position: absolute;
   width: 100%;
   height: 100%;
-  /* border-radius: 50px; */
   border-radius: 2vw;
 
   transition: 0.3s;
 }
 
 input:checked ~ .slider {
-  background-color: var(--light);
+  background-color: white;
 }
 
 .slider::before {
   content: "";
   position: absolute;
-  /* top: 13px;
-  left: 16px;
-  width: 75px;
-  height: 75px; */
   top: 0.35vw;
   left: 0.35vw;
   width: 1.8vw;
   height: 1.8vw;
-
   border-radius: 50%;
-  /* box-shadow: inset 28px -4px 0px 0px var(--light); */
   box-shadow: inset 0.6vw -0.05vw 0px 0px var(--light);
 
   background-color: var(--dark);
@@ -492,10 +504,8 @@ input:checked ~ .slider {
 }
 
 input:checked ~ .slider::before {
-  /* transform: translateX(95px); */
   transform: translateX(1.9vw);
-
-  background-color: var(--dark);
+  background-color: rgb(243, 243, 13);
   box-shadow: none;
 }
 
@@ -504,7 +514,6 @@ input:checked ~ .slider::before {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100px; */
   height: 2.5vw;
   width: 4.5vw;
   position: relative;
@@ -533,7 +542,7 @@ input:checked ~ .slider::before {
   z-index: 1;
 
   transition: 0.2s;
-  background: #000;
+  background: var(--bg_switch);
 
   top: 0.35vw;
   left: 0.35vw;

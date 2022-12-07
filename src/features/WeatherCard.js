@@ -1,7 +1,12 @@
 import clearSky from "./sun-svgrepo-com.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { favoriteDeleted } from "./favorites/favoritesSlice";
-import ChooseTempByUnit from "./favorites/components/chooseTempByUnit";
+import { useNavigate } from "react-router-dom";
+import {
+  fetchFiveDaysForecast,
+  resetFiveDaysForecast,
+  setSelectedCity,
+} from "./homeWeather/fiveDaysForecastSlice";
 
 function WeatherCard({
   cityName,
@@ -16,13 +21,27 @@ function WeatherCard({
 }) {
   const dispatch = useDispatch();
   const isCelsius = useSelector((state) => state.settings.celsius);
+  const navigate = useNavigate();
 
   const unitType = isCelsius ? "C" : "F";
 
   const onDeleteFromFavoritesClicked = (cityKey) => {
+    cityKey.stopPropagation();
     dispatch(favoriteDeleted(cityKey));
   };
-  console.log("cityTempCurrent", cityTempCurrent);
+
+  const displayHomeWeather = (event) => {
+    alert(11);
+    dispatch(resetFiveDaysForecast());
+    dispatch(
+      setSelectedCity({
+        city: cityName,
+        key: cityKey,
+        country: countryName,
+      })
+    );
+    navigate("/");
+  };
   if (day) {
     return (
       <li className="city">
@@ -43,7 +62,10 @@ function WeatherCard({
     );
   } else if (display === "cityAndTemp") {
     return (
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div
+        className="card-container"
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
         <img className="city-icon" src={clearSky} alt={"weather-description"} />
 
         <div>
@@ -64,9 +86,8 @@ function WeatherCard({
       </div>
     );
   } else if (display === "favorites") {
-    console.log("cityTempCurrent", cityTempCurrent);
     return (
-      <li className="city">
+      <li className="city" onClick={displayHomeWeather}>
         <button
           className="delete-button"
           onClick={() => onDeleteFromFavoritesClicked(cityKey)}
