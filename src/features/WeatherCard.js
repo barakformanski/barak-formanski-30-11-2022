@@ -26,12 +26,10 @@ function WeatherCard({
   const unitType = isCelsius ? "C" : "F";
 
   const onDeleteFromFavoritesClicked = (cityKey) => {
-    cityKey.stopPropagation();
     dispatch(favoriteDeleted(cityKey));
   };
 
   const displayHomeWeather = (event) => {
-    alert(11);
     dispatch(resetFiveDaysForecast());
     dispatch(
       setSelectedCity({
@@ -87,33 +85,35 @@ function WeatherCard({
     );
   } else if (display === "favorites") {
     return (
-      <li className="city" onClick={displayHomeWeather}>
+      <li className="city">
         <button
           className="delete-button"
           onClick={() => onDeleteFromFavoritesClicked(cityKey)}
         >
           x
         </button>
-        <h2 className="city-name">
-          <span>{cityName}</span>
-          <sup>{countryName}</sup>
-        </h2>
+        <div onClick={displayHomeWeather} className="city-navigate">
+          <h2 className="city-name">
+            <span>{cityName}</span>
+            <sup>{countryName}</sup>
+          </h2>
 
-        <div className="city-temp">
-          <div>
-            {cityTempCurrent}
-            <sup>°{unitType}</sup>
+          <div className="city-temp">
+            <div>
+              {cityTempCurrent}
+              <sup>°{unitType}</sup>
+            </div>
           </div>
-        </div>
-        <figure>
-          <img
-            className="city-icon"
-            src={clearSky}
-            alt={"weather-description"}
-          />
+          <figure>
+            <img
+              className="city-icon"
+              src={clearSky}
+              alt={"weather-description"}
+            />
 
-          <figcaption>{weatherDescription}</figcaption>
-        </figure>
+            <figcaption>{weatherDescription}</figcaption>
+          </figure>
+        </div>
       </li>
     );
   }

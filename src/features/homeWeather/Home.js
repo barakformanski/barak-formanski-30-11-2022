@@ -19,12 +19,7 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("in use effect of 5days forcast");
     if (fiveDaysForecastData.length) {
-      console.log(
-        "we have data and not need to fetch again, this is the data:",
-        fiveDaysForecastData
-      );
       const previousUnitype =
         fiveDaysForecastData[0].DailyForecasts[0].Temperature.Maximum.Unit;
 
@@ -32,14 +27,9 @@ function Home() {
         (isCel && previousUnitype === "F") ||
         (!isCel && previousUnitype === "C")
       ) {
-        console.log(
-          "the user swith tem units so do fetch again and bring the righy units"
-        );
-        // we can convert this fetch by writing a convert function
         dispatch(fetchFiveDaysForecast());
       }
     } else if (fiveDaysForecastStatus === "idle") {
-      console.log("do a forecast fetch please");
       dispatch(fetchFiveDaysForecast());
     }
   }, [

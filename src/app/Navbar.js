@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Switch from "../components/reusableSwitch";
 import ThemeSwitch from "../components/ThemeSwitch";
+import { toggleUnit } from "../features/settings/settingsSlice";
 
 export const Navbar = ({ theme, setTheme }) => {
+  const dispatch = useDispatch();
+
   const location = useLocation();
   let dynamycClassName;
   if (location.pathname === "/") {
@@ -18,7 +22,10 @@ export const Navbar = ({ theme, setTheme }) => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
   };
-
+  const toggleUnits = () => {
+    setValue(!value);
+    dispatch(toggleUnit());
+  };
   return (
     <nav>
       <section className="navContent">
@@ -48,11 +55,7 @@ export const Navbar = ({ theme, setTheme }) => {
         </div>
         <div className="switches-continer">
           <div className="switch-container">
-            <Switch
-              onColor="#fff"
-              isOn={value}
-              handleToggle={() => setValue(!value)}
-            />
+            <Switch onColor="#fff" isOn={value} handleToggle={toggleUnits} />
           </div>
 
           <ThemeSwitch theme={theme} switchTheme={switchTheme} />

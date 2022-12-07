@@ -7,11 +7,7 @@ import {
   favoriteDeleted,
   selectAllfavorites,
 } from "../favorites/favoritesSlice";
-import {
-  fetchFiveDaysForecast,
-  navigate,
-  setSelectedCity,
-} from "./fiveDaysForecastSlice";
+import { setSelectedCity } from "./fiveDaysForecastSlice";
 import mockDataAutoCompleteresponse from "./mockDataAutoComplete";
 
 function SelectCity() {
@@ -36,20 +32,14 @@ function SelectCity() {
       setInputValue(e.target.value);
       const urlPeriod = "locations/v1/cities/autocomplete";
       const query = `&q=${e.target.value}`;
-      // const responseDataAutoComplete = await apiCall(
-      //   urlPeriod,
-      //   query,
-      //   "autocomplete"
-      // );
-      //   setAutoCompleteData(responseDataAutoComplete);
-      // console.log("auto complete response", responseDataAutoComplete);
-
-      setAutoCompleteData(mockDataAutoCompleteresponse);
-
-      console.log(
-        "mock data auto complete response",
-        mockDataAutoCompleteresponse
+      const responseDataAutoComplete = await apiCall(
+        urlPeriod,
+        query,
+        "autocomplete"
       );
+      setAutoCompleteData(responseDataAutoComplete);
+
+      // setAutoCompleteData(mockDataAutoCompleteresponse);
     }
   };
   const onSelectChange = async (e) => {

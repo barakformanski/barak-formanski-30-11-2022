@@ -119,8 +119,6 @@ const initialState = {
 export const fetchCurrentconditionsArray = createAsyncThunk(
   "currentDayForecast/fetchCurrentForecast",
   async (key, { getState }) => {
-    console.log("arg", key);
-    // const urlPeriod = `currentconditions/v1/${key}`;
     const urlPeriod = `currentconditions/v1`;
 
     const responseData = await apiCall(
@@ -160,7 +158,6 @@ const favoritesSlice = createSlice({
       })
       .addCase(fetchCurrentconditionsArray.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log("action.payload", action.payload);
 
         state.currentForecastArray = state.currentForecastArray.concat(
           action.payload

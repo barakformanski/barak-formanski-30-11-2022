@@ -11,10 +11,7 @@ export const fetchFiveDaysForecast = createAsyncThunk(
   "FiveDaysForecast/fetchFiveDays",
   async (arg, { getState }) => {
     const state = await getState();
-    console.log(
-      "state.fiveDaysForecast.selectedCity",
-      state.fiveDaysForecast.selectedCity
-    );
+
     const key = state.fiveDaysForecast.selectedCity.key;
     const metric = state.settings.celsius;
     const urlPeriod = `forecasts/v1/daily/5day/${key}`;
@@ -24,7 +21,6 @@ export const fetchFiveDaysForecast = createAsyncThunk(
       "fiveDaysForecast",
       metric
     );
-    // return response.data;
     return responseData;
   }
 );
@@ -40,7 +36,6 @@ const fiveDaysForecastSlice = createSlice({
       state.selectedCity.country = country;
     },
     resetFiveDaysForecast(state, action) {
-      console.log(111);
       state.fiveDaysForecast = [];
       state.status = "idle";
     },
@@ -52,7 +47,6 @@ const fiveDaysForecastSlice = createSlice({
       })
       .addCase(fetchFiveDaysForecast.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // state.fiveDaysForecast = state.fiveDaysForecast.concat(action.payload);
         state.fiveDaysForecast = [action.payload];
       })
       .addCase(fetchFiveDaysForecast.rejected, (state, action) => {
@@ -66,5 +60,3 @@ export const { setSelectedCity, resetFiveDaysForecast } =
   fiveDaysForecastSlice.actions;
 
 export default fiveDaysForecastSlice.reducer;
-
-// e

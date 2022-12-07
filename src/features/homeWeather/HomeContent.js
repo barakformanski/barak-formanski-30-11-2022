@@ -18,13 +18,8 @@ function HomeContent() {
   let content;
 
   if (fiveDaysForecastStatus === "loading") {
-    console.log("LOADING DATA");
     content = <Spinner text="Loading..." />;
   } else if (fiveDaysForecastStatus === "succeeded") {
-    console.log(
-      "FETCHING SUCCEDED ALREADY - (now or before)",
-      fiveDaysForecastData
-    );
     content = (
       <div className="container">
         <WeatherCard
@@ -51,7 +46,6 @@ function HomeContent() {
     );
   } else if (fiveDaysForecastStatus === "failed") {
     content = <div className="error-message">{error}</div>;
-    console.log("FFAILED FETCHING");
   }
   return content;
 }

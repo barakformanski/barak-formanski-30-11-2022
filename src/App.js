@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./features/homeWeather/Home";
 import { FavoritesList } from "./features/favorites/favoritesList";
 import useLocalStorage from "use-local-storage";
-import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
