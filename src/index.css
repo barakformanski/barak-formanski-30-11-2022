@@ -1,24 +1,22 @@
 :root {
-  --header-background: #764abc;
+  --header-background: #lightBlue;
   --bg_main: lightBlue;
   --text_light: #fff;
   --text_med: #53627c;
   --text_dark: #1e2432;
-  --red: #ff1e42;
-  --darkred: #c3112d;
-  --orange: #ff8c00;
+
+  --light: #d8dbe0;
+  --dark: #28292c;
+
   font-size: 62.5%;
 }
 
 [data-theme="dark"] {
-  --header-background: black;
+  --header-background: #0a1f44;
   --bg_main: #0a1f44;
   --text_light: #fff;
   --text_med: #53627c;
   --text_dark: #1e2432;
-  --red: #ff1e42;
-  --darkred: #c3112d;
-  --orange: #151412;
 }
 
 body {
@@ -41,6 +39,7 @@ code {
   background-color: var(--bg_main);
   color: var(--text_light);
   min-height: 100vh;
+  padding: 4% 4% 0% 4%;
 }
 p {
   font-size: 1rem;
@@ -72,13 +71,13 @@ button.regular {
 }
 button.delete-button {
   display: inline-block;
-  color: black;
-  border-radius: 4px;
+  border: none;
   font-weight: 700;
   padding: 0.75rem 1.5rem;
   position: absolute;
   top: 5%;
   right: 5%;
+  width: auto;
 }
 button:hover,
 button:disabled,
@@ -88,7 +87,6 @@ button:disabled:hover {
 
 nav section {
   width: 100%;
-  background-color: orange;
 }
 
 nav section h1,
@@ -100,19 +98,18 @@ section h1 {
 nav a,
 nav a:active {
   font-weight: 700;
-  padding: 0.25rem 1.5rem;
+  margin: 0 2vw 0 0;
   border-radius: 4px;
-  color: red;
-  background: #481499;
+  color: var(--text_light);
 }
 
 nav a:hover {
-  color: white;
-  background: #926bcf;
+  color: var(--text_med);
 }
 
 .navContent {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -121,36 +118,29 @@ nav a:hover {
   font-size: 2rem;
 }
 
-.navLinks-home {
-  background-color: blue;
-}
-.navLinks-favorites {
-  background-color: blue;
-}
-
-.navLinks a {
-  margin-left: 5px;
-}
-
 /* HomeWeather */
-
-/* img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-} */
 
 ul {
   list-style: none;
+  padding: 0;
 }
 
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
 }
-
+.title-and-card-container {
+  display: flex;
+  position: relative;
+}
+.weekly-title {
+  font-size: 3rem;
+  position: absolute;
+  width: 50%;
+  right: 25%;
+  text-align: center;
+}
 /* SECTION #1
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .search-section {
@@ -190,20 +180,6 @@ search-section form li {
   position: absolute;
   display: none;
 }
-/* .search-section form button {
-  font-size: 1rem;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  padding: 15px 20px;
-  margin-left: 15px;
-  border-radius: 5px;
-  background: var(--red);
-  transition: background 0.3s ease-in-out;
-} */
-
-/* .search-section form button:hover {
-  background: var(--darkred);
-} */
 
 .search-section form .msg {
   position: absolute;
@@ -216,7 +192,7 @@ search-section form li {
 /* SECTION #2
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .ajax-section {
-  margin: 70px 0 20px;
+  margin: 3vw 0 0 0;
 }
 
 .ajax-section .cities {
@@ -256,7 +232,6 @@ search-section form li {
   font-size: 5rem;
   font-weight: bold;
   margin-top: 10px;
-  color: var(--text_dark);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -272,7 +247,7 @@ search-section form li {
   padding: 0.2em 0.6em;
   border-radius: 30px;
   color: var(--text_light);
-  background: var(--orange);
+  /* background: var(--orange); */
 }
 
 .ajax-section .city-icon {
@@ -456,4 +431,146 @@ search-section form li {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+/* toggle switch */
+
+.toggle-switch {
+  position: relative;
+  /* width: 200px; */
+  width: 4.5vw;
+}
+
+label {
+  position: absolute;
+  width: 100%;
+  height: 2.5vw;
+  /* height: 100px; */
+  background-color: var(--dark);
+  /* border-radius: 50px; */
+  border-radius: 2vw;
+  cursor: pointer;
+}
+
+input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* border-radius: 50px; */
+  border-radius: 2vw;
+
+  transition: 0.3s;
+}
+
+input:checked ~ .slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  /* top: 13px;
+  left: 16px;
+  width: 75px;
+  height: 75px; */
+  top: 0.35vw;
+  left: 0.35vw;
+  width: 1.8vw;
+  height: 1.8vw;
+
+  border-radius: 50%;
+  /* box-shadow: inset 28px -4px 0px 0px var(--light); */
+  box-shadow: inset 0.6vw -0.05vw 0px 0px var(--light);
+
+  background-color: var(--dark);
+  transition: 0.3s;
+}
+
+input:checked ~ .slider::before {
+  /* transform: translateX(95px); */
+  transform: translateX(1.9vw);
+
+  background-color: var(--dark);
+  box-shadow: none;
+}
+
+/* Switch */
+.switch-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100px; */
+  height: 2.5vw;
+  width: 4.5vw;
+  position: relative;
+  right: 5%;
+}
+.react-switch-checkbox {
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.react-switch {
+  cursor: pointer;
+
+  background: #fff;
+  position: relative;
+  transition: background-color 0.2s;
+  /* border-radius: 50px; */
+  border-radius: 2vw;
+  color: #000;
+}
+
+.react-switch .react-switch-button {
+  position: absolute;
+  z-index: 1;
+
+  transition: 0.2s;
+  background: #000;
+
+  top: 0.35vw;
+  left: 0.35vw;
+  width: 55%;
+  height: 70%;
+
+  border-radius: 2vw;
+}
+
+.react-switch-checkbox:checked + .react-switch-button {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.react-switch-checkbox:active + .react-switch-button {
+  /* width: 60px; */
+  width: 2vw;
+}
+
+.react-switch-labels {
+  display: relative;
+  z-index: 0;
+  height: 100%;
+  font: 14pt "Segoe UI", Verdana, sans-serif;
+}
+
+.react-switch-labels span {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+}
+.react-switch-labels span:first-child {
+  left: 0;
+}
+.react-switch-labels span:last-child {
+  right: 0;
 }

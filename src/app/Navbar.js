@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import Switch from "../components/reusableSwitch";
+import ThemeSwitch from "../components/ThemeSwitch";
+import ToggleSwitch from "../components/ThemeSwitch";
+import { toggleUnit } from "../features/settings/settingsSlice";
 
-export const Navbar = () => {
+export const Navbar = ({ theme, setTheme }) => {
   const location = useLocation();
   let dynamycClassName;
   if (location.pathname === "/") {
@@ -9,12 +14,21 @@ export const Navbar = () => {
   } else {
     dynamycClassName = "favorites";
   }
+  const dispatch = useDispatch();
+  const isCelsius = useSelector((state) => state.settings.celsius);
+  const [value, setValue] = useState(false);
+
+  const switchTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+  };
+  const switchUnit = () => {
+    dispatch(toggleUnit());
+  };
   return (
     <nav>
-      <section>
-        <h1>wether app</h1>
-
-        <div className="navContent">
+      <section className="navContent">
+        <div>
           <div className={"navLinks"}>
             <Link
               className={
@@ -37,6 +51,22 @@ export const Navbar = () => {
               Favorites
             </Link>
           </div>
+        </div>
+        <div className="switches-continer">
+          {/* <div> */}
+          <div className="switch-container">
+            <Switch
+              onColor="#fff"
+              isOn={value}
+              // isOn={isCelsius ? false : true}
+              handleToggle={() => setValue(!value)}
+              // handleToggle={switchUnit}
+            />
+          </div>
+          {/* </div> */}
+          {/* <div> */}
+          <ThemeSwitch theme={theme} switchTheme={switchTheme} />
+          {/* </div> */}
         </div>
       </section>
     </nav>

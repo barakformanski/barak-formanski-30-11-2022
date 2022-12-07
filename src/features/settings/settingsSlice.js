@@ -8,7 +8,6 @@ const settingsSlice = createSlice({
   initialState,
   reducers: {
     toggleUnit(state) {
-      //   const { city, Key } = action.payload;
       state.celsius = !state.celsius;
     },
   },

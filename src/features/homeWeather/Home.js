@@ -52,7 +52,7 @@ function Home() {
 
   return (
     <>
-      <section className={"search-section"}>
+      <section className="search-section">
         <SelectCity />
       </section>
       <section className="ajax-section">

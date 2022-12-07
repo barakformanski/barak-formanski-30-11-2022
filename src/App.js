@@ -17,22 +17,22 @@ function App() {
   const dispatch = useDispatch();
   const isCelsius = useSelector((state) => state.settings.celsius);
 
-  const switchTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-  };
-  const switchUnit = () => {
-    dispatch(toggleUnit());
-  };
+  // const switchTheme = () => {
+  //   const newTheme = theme === "light" ? "dark" : "light";
+  //   setTheme(newTheme);
+  // };
+  // const switchUnit = () => {
+  //   dispatch(toggleUnit());
+  // };
   return (
     <div className="app" data-theme={theme}>
-      <button onClick={switchTheme}>
+      {/* <button onClick={switchTheme}>
         Switch To {theme === "light" ? "Dark" : "Light"} Theme
       </button>
       <button onClick={switchUnit}>
         Switch To {isCelsius ? "Fahrenheit" : "Celsius"}
-      </button>
-      <Navbar />
+      </button> */}
+      <Navbar theme={theme} setTheme={setTheme} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/favorites/" element={<FavoritesList />} />
