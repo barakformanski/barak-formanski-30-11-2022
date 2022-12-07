@@ -1,5 +1,5 @@
 import clearSky from "./sun-svgrepo-com.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { favoriteDeleted } from "./favorites/favoritesSlice";
 import ChooseTempByUnit from "./favorites/components/chooseTempByUnit";
 
@@ -15,11 +15,14 @@ function WeatherCard({
   cityTempCurrent,
 }) {
   const dispatch = useDispatch();
+  const isCelsius = useSelector((state) => state.settings.celsius);
+
+  const unitType = isCelsius ? "C" : "F";
 
   const onDeleteFromFavoritesClicked = (cityKey) => {
     dispatch(favoriteDeleted(cityKey));
   };
-
+  console.log("cityTempCurrent", cityTempCurrent);
   if (day) {
     return (
       <li className="city">
@@ -29,11 +32,11 @@ function WeatherCard({
         <div className="city-temp">
           <div>
             {Math.round(cityTemp.Maximum.Value)}
-            <sup>°C</sup>
+            <sup>°{unitType}</sup>
           </div>
           <div className="min-temp">
             {Math.round(cityTemp.Minimum.Value)}
-            <sup>°C</sup>
+            <sup>°{unitType}</sup>
           </div>
         </div>
       </li>
@@ -50,18 +53,18 @@ function WeatherCard({
           <div className="city-temp">
             <div>
               {Math.round(cityTemp.Maximum.Value)}
-              <sup>°C</sup>
+              <sup>°{unitType}</sup>
             </div>
             <div className="min-temp">
               {Math.round(cityTemp.Minimum.Value)}
-              <sup>°C</sup>
+              <sup>°{unitType}</sup>
             </div>
           </div>
         </div>
       </div>
     );
   } else if (display === "favorites") {
-    console.log("currentForecast", currentForecast);
+    console.log("cityTempCurrent", cityTempCurrent);
     return (
       <li className="city">
         <button
@@ -74,8 +77,13 @@ function WeatherCard({
           <span>{cityName}</span>
           <sup>{countryName}</sup>
         </h2>
-        <ChooseTempByUnit cityTempCurrent={cityTempCurrent} />
 
+        <div className="city-temp">
+          <div>
+            {cityTempCurrent}
+            <sup>°{unitType}</sup>
+          </div>
+        </div>
         <figure>
           <img
             className="city-icon"

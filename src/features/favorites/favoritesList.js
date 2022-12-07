@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import WeatherCard from "../WeatherCard";
 import {
+  clearCurrentForecastArray,
   fetchCurrentconditionsArray,
   selectAllfavorites,
 } from "./favoritesSlice";
@@ -44,47 +45,50 @@ export const FavoritesList = () => {
     (state) => state.favorites.status
   );
 
-  // useEffect(() => {
-  // if (sessionStorage.getItem("dispatch current forecast")) {
-  // console.log("full");
-  // return;
-  // } else {
-  // console.log("empty");
-  // if (CurrentconditionsStatus === "idle") {
-  // dispatch(fetchCurrentconditionsArray());
-  // sessionStorage.setItem("dispatch current forecast", true);
-  // }
-  // }
-  // }, []);
-
+  // ENABLE THIS TO RUN CURRENT WEATHER FETCH
   useEffect(() => {
-    favorites.map(
-      (favorite) => dispatch(fetchCurrentconditionsArray(favorite.key))
-      // dispatch(fetchCurrentconditionsArray());
+    favorites.map((favorite) =>
+      dispatch(fetchCurrentconditionsArray(favorite.key))
     );
+    return () => dispatch(clearCurrentForecastArray());
   }, []);
 
-  // const favorites = useSelector((state) => state.favorites.favoritesList);
+  const mergeArrays = (key) => {
+    console.log("key to index", key);
+    console.log("CurrentconditionsData", CurrentconditionsData);
+    const index = CurrentconditionsData.findIndex((obj) => obj.key == key);
+    return index;
+  };
 
-  const renderedFavorites = favorites.map((favorite, index) => (
-    <WeatherCard
-      display={"favorites"}
-      cityKey={favorite.key}
-      cityName={favorite.city}
-      countryName={favorite.country}
-      cityTempCurrent={
-        mockdatacurrent[index]?.Temperature
-          ? mockdatacurrent[index].Temperature
-          : mockdatacurrent[0].Temperature
-      }
-      // cityTemp={{
-      //   Minimum: { Value: 74, Unit: "F", UnitType: 18 },
-      //   Maximum: { Value: 60, Unit: "F", UnitType: 18 },
-      // }}
-      weatherDescription={"cloudy"}
-      currentForecast={mockdatacurrent}
-    />
-  ));
+  const calculateTemp = (key) => {
+    const unit = isCelsius === true ? "Metric" : "Imperial";
+    return CurrentconditionsData[mergeArrays(key)]?.Temperature[unit].Value;
+  };
+  const calculateDescription = (key) => {
+    return CurrentconditionsData[mergeArrays(key)]?.WeatherText;
+  };
+
+  const renderedFavorites = favorites.map((favorite, index) => {
+    console.log("favorite", favorite);
+    console.log(mergeArrays(favorite.key));
+    return (
+      <WeatherCard
+        key={favorite.key}
+        display={"favorites"}
+        cityKey={favorite.key}
+        cityName={favorite.city}
+        countryName={favorite.country}
+        // cityTempCurrent={mergeArrays(favorite.key)}
+        cityTempCurrent={calculateTemp(favorite.key)}
+        // cityTemp={{
+        //   Minimum: { Value: 74, Unit: "F", UnitType: 18 },
+        //   Maximum: { Value: 60, Unit: "F", UnitType: 18 },
+        // }}
+        weatherDescription={calculateDescription(favorite.key)}
+        currentForecast={mockdatacurrent}
+      />
+    );
+  });
 
   return (
     <section className="ajax-section">
