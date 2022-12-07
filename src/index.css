@@ -452,7 +452,7 @@ label {
   cursor: pointer;
 }
 
-input {
+.toggle-switch input {
   position: absolute;
   display: none;
 }

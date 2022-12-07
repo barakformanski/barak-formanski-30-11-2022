@@ -85,6 +85,7 @@ function SelectCity() {
   return (
     <div className={"container"}>
       <form>
+        ssss
         <input
           value={
             selectedCityData && display === "disappear"
@@ -99,6 +100,7 @@ function SelectCity() {
           onChange={(e) => handleChange(e)}
           name="city"
         />
+        sss
         <span className="msg">{message}</span>
         <ul className={`search-list-select-${display}`} id="search">
           {autoCompleteData?.map((city) => {
