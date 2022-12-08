@@ -45,7 +45,14 @@ function HomeContent() {
       </div>
     );
   } else if (fiveDaysForecastStatus === "failed") {
-    content = <div className="error-message">{error}</div>;
+    content = (
+      <div className="error-message">
+        {error}- Probably the allowed number of requests has been exceeded, try
+        to generate a new api-key from AccuWwather APIs- connect Barak for more
+        help - 0545665174- in the meantime - you can ask Barak to show you the
+        site with mockdata
+      </div>
+    );
   }
   return content;
 }

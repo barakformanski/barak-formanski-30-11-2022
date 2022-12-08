@@ -1,4 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { apiCall } from "../../app/utils/apiCalls";
@@ -8,6 +7,7 @@ import {
   selectAllfavorites,
 } from "../favorites/favoritesSlice";
 import { setSelectedCity } from "./fiveDaysForecastSlice";
+// use this to save request or when accses denied ""The allowed number of requests has been exceeded."
 import mockDataAutoCompleteresponse from "./mockDataAutoComplete";
 
 function SelectCity() {
@@ -21,7 +21,6 @@ function SelectCity() {
   const [message, setMessage] = useState();
   const [autoCompleteData, setAutoCompleteData] = useState();
   const [inputValue, setInputValue] = useState();
-  const [enableAddToFavortie, setEnableAddToFavortie] = useState(false);
 
   const handleChange = async (e) => {
     if (!e.target.value) {
@@ -38,7 +37,7 @@ function SelectCity() {
         "autocomplete"
       );
       setAutoCompleteData(responseDataAutoComplete);
-
+      // use the foilowing to save request or when accses denied ""The allowed number of requests has been exceeded."
       // setAutoCompleteData(mockDataAutoCompleteresponse);
     }
   };
@@ -107,7 +106,7 @@ function SelectCity() {
     return <></>;
   }
   const displayValueInput = () => {
-    if (selectedCityData && display === "disappear") {
+    if (selectedCityData && display === "disappear" && inputValue) {
       return selectedCityData.city;
     } else {
       return inputValue;

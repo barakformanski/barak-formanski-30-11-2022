@@ -10,32 +10,9 @@ import {
 export const FavoritesList = () => {
   const isCelsius = useSelector((state) => state.settings.celsius);
   const favorites = useSelector(selectAllfavorites);
-  // const mockdatacurrent = [
-  //   {
-  //     LocalObservationDateTime: "2022-12-06T13:18:00+02:00",
-  //     EpochTime: 1670325480,
-  //     WeatherText: "Partly sunny",
-  //     WeatherIcon: 3,
-  //     HasPrecipitation: false,
-  //     PrecipitationType: null,
-  //     IsDayTime: true,
-  //     Temperature: {
-  //       Metric: {
-  //         Value: 21,
-  //         Unit: "C",
-  //         UnitType: 17,
-  //       },
-  //       Imperial: {
-  //         Value: 70,
-  //         Unit: "F",
-  //         UnitType: 18,
-  //       },
-  //     },
-  //     MobileLink:
-  //       "http://www.accuweather.com/en/il/tel-aviv-port/215793/current-weather/215793?lang=en-us",
-  //     Link: "http://www.accuweather.com/en/il/tel-aviv-port/215793/current-weather/215793?lang=en-us",
-  //   },
-  // ];
+  const fiveDaysForecastStatus = useSelector(
+    (state) => state.fiveDaysForecast.status
+  );
   const dispatch = useDispatch();
 
   const CurrentconditionsData = useSelector(
@@ -63,20 +40,30 @@ export const FavoritesList = () => {
   };
 
   const renderedFavorites = favorites.map((favorite, index) => {
-    console.log("favorite", favorite);
-    console.log(mergeArrays(favorite.key));
     return (
-      <WeatherCard
-        key={favorite.key}
-        display={"favorites"}
-        cityKey={favorite.key}
-        cityName={favorite.city}
-        countryName={favorite.country}
-        cityTempCurrent={calculateTemp(favorite.key)}
-        weatherDescription={calculateDescription(favorite.key)}
-        currentForecast={CurrentconditionsData}
-        // currentForecast={mockdatacurrent}
-      />
+      <>
+        <WeatherCard
+          key={favorite.key}
+          display={"favorites"}
+          cityKey={favorite.key}
+          cityName={favorite.city}
+          countryName={favorite.country}
+          cityTempCurrent={calculateTemp(favorite.key)}
+          weatherDescription={calculateDescription(favorite.key)}
+          currentForecast={CurrentconditionsData}
+          //import  mockdatacurrent and use it to save request or when accses denied ""The allowed number of requests has been exceeded."
+          // currentForecast={mockdatacurrent}
+        />
+
+        {fiveDaysForecastStatus === "failed" && (
+          <div className="error-message">
+            Probably the allowed number of requests has been exceeded, try to
+            generate a new api-key from AccuWwather APIs- connect Barak for more
+            help - 0545665174- in the meantime - you can ask Barak to show you
+            the site with mockdata
+          </div>
+        )}
+      </>
     );
   });
 
