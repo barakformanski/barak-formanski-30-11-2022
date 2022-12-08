@@ -283,7 +283,6 @@ search-section form li {
 @media screen and (max-width: 1000px) {
   :root {
     font-size: 50%;
-    background-color: green;
   }
 
   .ajax-section .cities {
