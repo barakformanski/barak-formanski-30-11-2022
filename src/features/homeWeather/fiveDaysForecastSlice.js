@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiCall } from "../../app/utils/apiCalls";
+// import mockDataFiveDays from "./mocdDataFiveDaysForecast";
 const initialState = {
   fiveDaysForecast: [],
   status: "idle",
@@ -22,6 +23,12 @@ export const fetchFiveDaysForecast = createAsyncThunk(
       metric
     );
     return responseData;
+    // mockDataFiveDays-
+    // mock - data usr for fiveDays - forecast
+    // const responseData = await setTimeout(() =>
+    //   console.log("use mock data for fiveDaysForecast")
+    // );
+    // return mockDataFiveDays;
   }
 );
 

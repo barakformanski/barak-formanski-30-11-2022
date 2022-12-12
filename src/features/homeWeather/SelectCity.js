@@ -6,7 +6,10 @@ import {
   favoriteDeleted,
   selectAllfavorites,
 } from "../favorites/favoritesSlice";
-import { setSelectedCity } from "./fiveDaysForecastSlice";
+import {
+  resetFiveDaysForecast,
+  setSelectedCity,
+} from "./fiveDaysForecastSlice";
 // use this to save request or when accses denied ""The allowed number of requests has been exceeded."
 import mockDataAutoCompleteresponse from "./mockDataAutoComplete";
 
@@ -58,6 +61,7 @@ function SelectCity() {
         country: selectedCityFormList.Country.LocalizedName,
       })
     );
+    dispatch(resetFiveDaysForecast());
     // return this to enable fetching 5 dats data after switching cities
     // dispatch(fetchFiveDaysForecast());
   };

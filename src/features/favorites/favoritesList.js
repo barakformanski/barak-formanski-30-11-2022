@@ -6,6 +6,8 @@ import {
   fetchCurrentconditionsArray,
   selectAllfavorites,
 } from "./favoritesSlice";
+// for mackData use
+// import mockDatacurrent from "./utils/mockDataCurrentforcast";
 
 export const FavoritesList = () => {
   const isCelsius = useSelector((state) => state.settings.celsius);
@@ -51,8 +53,8 @@ export const FavoritesList = () => {
           cityTempCurrent={calculateTemp(favorite.key)}
           weatherDescription={calculateDescription(favorite.key)}
           currentForecast={CurrentconditionsData}
-          //import  mockdatacurrent and use it to save request or when accses denied ""The allowed number of requests has been exceeded."
-          // currentForecast={mockdatacurrent}
+          // import  mockdatacurrent and use it to save request or when accses denied ""The allowed number of requests has been exceeded."
+          // currentForecast={mockDatacurrent}
         />
 
         {fiveDaysForecastStatus === "failed" && (
