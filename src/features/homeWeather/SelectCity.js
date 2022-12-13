@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { apiCall } from "../../app/utils/apiCalls";
 import {
@@ -24,6 +24,36 @@ function SelectCity() {
   const [message, setMessage] = useState();
   const [autoCompleteData, setAutoCompleteData] = useState();
   const [inputValue, setInputValue] = useState();
+  const timerRef = useRef(null);
+
+  const fetchAutoComplete = useCallback(async () => {
+    try {
+      const urlPeriod = "locations/v1/cities/autocomplete";
+      const query = `&q=${inputValue}`;
+      const responseDataAutoComplete = await apiCall(
+        urlPeriod,
+        query,
+        "autocomplete"
+      );
+      setAutoCompleteData(responseDataAutoComplete);
+
+      // use the following to save request or when accses denied ""The allowed number of requests has been exceeded."
+      // setAutoCompleteData(mockDataAutoCompleteresponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [inputValue]);
+
+  useEffect(() => {
+    clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
+      timerRef.current = null;
+      fetchAutoComplete();
+    }, 500);
+
+    return () => clearTimeout(timerRef.current);
+  }, [fetchAutoComplete]);
 
   const handleChange = async (e) => {
     if (!e.target.value) {
@@ -32,28 +62,15 @@ function SelectCity() {
     } else {
       setDisplay("appear");
       setInputValue(e.target.value);
-      const urlPeriod = "locations/v1/cities/autocomplete";
-      const query = `&q=${e.target.value}`;
-      const responseDataAutoComplete = await apiCall(
-        urlPeriod,
-        query,
-        "autocomplete"
-      );
-      setAutoCompleteData(responseDataAutoComplete);
-      // use the foilowing to save request or when accses denied ""The allowed number of requests has been exceeded."
-      // setAutoCompleteData(mockDataAutoCompleteresponse);
     }
   };
   const onSelectChange = async (e) => {
     e.preventDefault();
     setInputValue(e.target.value);
     setDisplay("disappear");
-    console.log(e.target.value);
-    console.log(display);
     const [selectedCityFormList] = autoCompleteData.filter(
       (city) => city.LocalizedName === e.target.value
     );
-    console.log("selectedCityFormList", selectedCityFormList);
     dispatch(
       setSelectedCity({
         city: selectedCityFormList.LocalizedName,
@@ -62,8 +79,6 @@ function SelectCity() {
       })
     );
     dispatch(resetFiveDaysForecast());
-    // return this to enable fetching 5 dats data after switching cities
-    // dispatch(fetchFiveDaysForecast());
   };
   const onAddToFavoritesClicked = () => {
     dispatch(
