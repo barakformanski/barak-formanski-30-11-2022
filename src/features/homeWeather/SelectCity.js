@@ -28,17 +28,17 @@ function SelectCity() {
 
   const fetchAutoComplete = useCallback(async () => {
     try {
-      const urlPeriod = "locations/v1/cities/autocomplete";
-      const query = `&q=${inputValue}`;
-      const responseDataAutoComplete = await apiCall(
-        urlPeriod,
-        query,
-        "autocomplete"
-      );
-      setAutoCompleteData(responseDataAutoComplete);
+      // const urlPeriod = "locations/v1/cities/autocomplete";
+      // const query = `&q=${inputValue}`;
+      // const responseDataAutoComplete = await apiCall(
+      //   urlPeriod,
+      //   query,
+      //   "autocomplete"
+      // );
+      // setAutoCompleteData(responseDataAutoComplete);
 
       // use the following to save request or when accses denied ""The allowed number of requests has been exceeded."
-      // setAutoCompleteData(mockDataAutoCompleteresponse);
+      setAutoCompleteData(mockDataAutoCompleteresponse);
     } catch (error) {
       console.log(error);
     }
@@ -151,7 +151,7 @@ function SelectCity() {
           <ul className={`search-list-select-${display}`} id="search">
             {autoCompleteData?.map((city) => {
               return (
-                <li key={city.Key}>
+                <li key={city.Key} className="search-list-item">
                   <button
                     value={city.LocalizedName}
                     key={city.key}

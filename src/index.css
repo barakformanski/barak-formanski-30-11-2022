@@ -195,6 +195,10 @@ search-section form li {
   display: none;
 }
 
+.search-list-item:hover {
+  background-color: var(--bg_main);
+}
+
 .search-section form .msg {
   position: absolute;
   bottom: -40px;
